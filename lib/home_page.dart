@@ -17,7 +17,8 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'app_fonts.dart';
 
 class HomePage extends StatelessWidget {
-  final _textController = TextEditingController(text: "A fast car in the shape of wing");
+  final _textController1 = TextEditingController(text: "banana car");
+  final _textController2 = TextEditingController(text: "banana airplane");
   final _controller = Get.put(AppController());
   final _processTextController = TextEditingController();
 
@@ -27,8 +28,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.car_crash, color: Colors.white,),
-        title: const Text('Car 3D Generator'),
+        leading: const Icon(Icons.generating_tokens, color: Colors.white,),
+        title: const Text('LLM2FEA'),
       ),
       body: Container(
         decoration:  const BoxDecoration(
@@ -224,23 +225,38 @@ class HomePage extends StatelessWidget {
 
   Widget promptInput(bool showIcon) {
     return SizedBox(
-        height: 100.r,
+        height: 130.r,
         width: 1200.r,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if(showIcon)
-              Image.asset("assets/images/car_logo.png", height: 64.r, fit: BoxFit.fitHeight,),
+              Image.asset("assets/images/car_logo.png", height: 128.r, fit: BoxFit.fitHeight,),
             if(showIcon)
               SizedBox(width: 20.r,),
-            Expanded(child: TextField(
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: Colors.white70,
-                border: OutlineInputBorder(),
-                hintText: 'Enter a Prompt',
-              ),
-              controller: _textController,
+            Expanded(child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white70,
+                    border: OutlineInputBorder(),
+                    hintText: 'Input the first prompt',
+                  ),
+                  controller: _textController1,
+                ),
+                const SizedBox(height: 15,),
+                TextField(
+                  decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white70,
+                    border: OutlineInputBorder(),
+                    hintText: 'Input the second Prompt',
+                  ),
+                  controller: _textController2,
+                ),
+              ],
             )),
             SizedBox(width: 40.r,),
             FilledButton(onPressed: generate3DModel, child: Padding(padding: EdgeInsets.all(10.r),
@@ -253,7 +269,7 @@ class HomePage extends StatelessWidget {
 
   Future<void> generate3DModel() async {
     _controller.loading.value = 1;
-    _controller.currentGen = _textController.text.contains("fast")?"gen-1":"gen-2";
+    _controller.currentGen = _textController1.text.contains("fast")?"gen-1":"gen-2";
 
     for(int i=0; i<_controller.mainSteps.length; i++){
       int tTime = 0;
