@@ -2,15 +2,14 @@
 
 LLM to FEA project
 
-## Getting Started
+## build
+> flutter build web --web-renderer html
 
-This project is a starting point for a Flutter application.
+## icon
+> flutter pub run flutter_launcher_icons
 
-A few resources to get you started if this is your first Flutter project:
+## test on local mobile (web)
+> flutter run -d web-server --web-port 8088 --web-hostname 0.0.0.0
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Build release apk
+> flutter build apk --split-per-abi --obfuscate --split-debug-info=/turing_chat/logs     

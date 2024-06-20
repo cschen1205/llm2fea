@@ -3,7 +3,7 @@ import 'dart:html' as html;
 
 import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
-import 'package:llm2fea/app_controller.dart';
+import 'app_controller.dart';
 import 'package:llm2fea/model_item.dart';
 import 'package:llm2fea/step_item.dart';
 import 'package:circular_menu/circular_menu.dart';
@@ -13,7 +13,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
-
 import 'app_fonts.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,12 +27,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.generating_tokens, color: Colors.white,),
+        leading: Padding(padding: EdgeInsets.all(10.r), child: Image.asset("assets/images/logo.png", fit: BoxFit.fitHeight)),
         title: const Text('LLM2FEA'),
       ),
       body: Container(
         decoration:  const BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/images/carbg.png"), fit: BoxFit.cover),
+          image: DecorationImage(image: AssetImage("assets/images/background.png"), fit: BoxFit.cover),
         ),
         child: Obx(()=>_getBody(context)),
       )
@@ -44,13 +43,16 @@ class HomePage extends StatelessWidget {
     if(_controller.loading.value == 0){
       return Column(
         children: [
-          Image.asset("assets/images/car_logo.png", height: 320.r, fit: BoxFit.fitHeight,),
+          SizedBox(height: 40.r,),
+          Image.asset("assets/images/logo.png", height: 240.r, fit: BoxFit.fitHeight,),
+          SizedBox(height: 40.r,),
           Center(child: promptInput(false)),
         ],
       );
     }else {
       return Column(
         children: [
+          SizedBox(height: 20.r,),
           promptInput(true),
           SizedBox(height: 10.r,),
           Expanded(child: bodyContent(context))
@@ -59,9 +61,9 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Widget bodyContent(BuildContext context){
+  Widget bodyContent(BuildContext context) {
     // return generatedContent();
-    if(_controller.loading.value == 1){
+    if (_controller.loading.value == 1) {
       return Container(
           decoration: BoxDecoration(
             color: Colors.white70,
@@ -72,8 +74,28 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.all(10.r),
           child: generating(context)
       );
-    }else if(_controller.loading.value == 2) {
-      return generatedContent();
+    } else if (_controller.loading.value == 2) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(flex: 4, child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Positioned.fill(child: generatedContent("Car", "car")),
+              Positioned(width: 400.r, height: 400.r, top: 240.r,
+                  child: Center(child: Text("Banana Car", style: AppFonts.caption,)))
+            ],
+          )),
+          Expanded(flex: 4, child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Positioned.fill(child: generatedContent("Airplane", "airplane")),
+              Positioned(width: 400.r, height: 400.r, top: 240.r,
+                  child: Center(child: Text("Banana Airplane", style: AppFonts.caption,)))
+            ],
+          )),
+        ],
+      );
       // return ListView.separated(
       //   itemBuilder: (BuildContext context, int index) => imageGallery(_controller.carInfo.keys.toList()[index], context),
       //   separatorBuilder: (BuildContext context, int index) => SizedBox(height: 20.r,),
@@ -83,7 +105,7 @@ class HomePage extends StatelessWidget {
     return const SizedBox();
   }
 
-  Widget generatedContent() {
+  Widget generatedContent(String filename, String location) {
     return CircularMenu(
         alignment: Alignment.center,
         radius: 200.r,
@@ -93,7 +115,7 @@ class HomePage extends StatelessWidget {
         startingAngleInRadian: 0,
         endingAngleInRadian: pi*2,
         toggleButtonColor: Colors.pink,
-        toggleButtonBoxShadow: [
+        toggleButtonBoxShadow: const [
           BoxShadow(
             color: Colors.blue,
             blurRadius: 10,
@@ -103,41 +125,42 @@ class HomePage extends StatelessWidget {
         toggleButtonMargin: 20.0,
         toggleButtonPadding: 20.0,
         toggleButtonSize: 60.0,
+        // toggleButtonIcon: icon,
         toggleButtonAnimatedIconData: AnimatedIcons.home_menu,
         items: [
           CircularMenuItem(
               icon: Icons.looks_one,
-              onTap: ()=>openCarDialog(_controller.currentGen, ModelItem(name: "Car 1", path: "car_1", gen: _controller.currentGen)),
+              onTap: ()=>openCarDialog(location, ModelItem(name: "$filename 1", path: "${location}1", gen: location)),
               iconSize: 50.r,
             margin: 10.r, padding: 10.r, color: Colors.red,
           ),
           CircularMenuItem(
               icon: Icons.looks_two,
-              onTap: ()=>openCarDialog(_controller.currentGen, ModelItem(name: "Car 2", path: "car_2", gen: _controller.currentGen)),
+              onTap: ()=>openCarDialog(location, ModelItem(name: "$filename 2", path: "${location}2", gen: location)),
             iconSize: 50.r,
             margin: 10.r, padding: 10.r, color: Colors.blue,
           ),
           CircularMenuItem(
               icon: Icons.looks_3,
-              onTap: ()=>openCarDialog(_controller.currentGen, ModelItem(name: "Car 3", path: "car_3", gen: _controller.currentGen)),
+              onTap: ()=>openCarDialog(location, ModelItem(name: "$filename 3", path: "${location}3", gen: location)),
             iconSize: 50.r,
             margin: 10.r, padding: 10.r, color: Colors.green,
           ),
           CircularMenuItem(
               icon: Icons.looks_4,
-              onTap: ()=>openCarDialog(_controller.currentGen, ModelItem(name: "Car 4", path: "car_4", gen: _controller.currentGen)),
+              onTap: ()=>openCarDialog(location, ModelItem(name: "$filename 4", path: "${location}4", gen: location)),
             iconSize: 50.r,
             margin: 10.r, padding: 10.r, color: Colors.orange,
           ),
           CircularMenuItem(
               icon: Icons.looks_5,
-              onTap: ()=>openCarDialog(_controller.currentGen, ModelItem(name: "Car 5", path: "car_5", gen: _controller.currentGen)),
+              onTap: ()=>openCarDialog(location, ModelItem(name: "$filename 5", path: "${location}5", gen: location)),
             iconSize: 50.r,
             margin: 10.r, padding: 10.r, color: Colors.indigo,
           ),
           CircularMenuItem(
               icon: Icons.looks_6,
-              onTap: ()=>openCarDialog(_controller.currentGen, ModelItem(name: "Car 6", path: "car_6", gen: _controller.currentGen)),
+              onTap: ()=>openCarDialog(location, ModelItem(name: "$filename 6", path: "${location}6", gen: location)),
             iconSize: 50.r,
             margin: 10.r, padding: 10.r, color: Colors.cyan,
           ),
@@ -147,7 +170,7 @@ class HomePage extends StatelessWidget {
   Future openCarDialog(String path, ModelItem item){
     return Get.defaultDialog(
       title: item.name,
-      content: getModelItem(path, item, 640.r, false),
+      content: getModelItem(path, item, 720.r, false),
     );
   }
 
@@ -166,9 +189,10 @@ class HomePage extends StatelessWidget {
                     iconWidth: 40,
                     iconHeight: 40,
                     activeIndex: _controller.step[0].value,
+                    verticalGap: 60,
                   )),
-              SizedBox(height: 120.r,),
-              SizedBox(height: 400.r, width: size.width - 120.r,
+              SizedBox(height: 60.r,),
+              SizedBox(height: size.height - 140.r, width: size.width - 120.r,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -180,7 +204,7 @@ class HomePage extends StatelessWidget {
                       ],
                     ))),
                     Flexible(child: TextField(
-                      maxLines: 200,
+                      maxLines: 300,
                       style: AppFonts.blackTextH3,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -197,14 +221,14 @@ class HomePage extends StatelessWidget {
   }
 
   Widget loadingWidget(){
-    // return LoadingAnimationWidget.discreteCircle(
-    //   color: Colors.blue.shade600,
-    //   size: 180.r,
-    // );
-    return LoadingAnimationWidget.inkDrop(
+    return LoadingAnimationWidget.discreteCircle(
       color: Colors.blue.shade600,
       size: 180.r,
     );
+    // return LoadingAnimationWidget.inkDrop(
+    //   color: Colors.blue.shade600,
+    //   size: 180.r,
+    // );
     // return SizedBox(height: 180.r, width: 180.r,child:
     // Stack(
     //   children: [
@@ -225,13 +249,13 @@ class HomePage extends StatelessWidget {
 
   Widget promptInput(bool showIcon) {
     return SizedBox(
-        height: 130.r,
+        height: 120.r,
         width: 1200.r,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if(showIcon)
-              Image.asset("assets/images/car_logo.png", height: 128.r, fit: BoxFit.fitHeight,),
+              Image.asset("assets/images/logo.png", height: 128.r, fit: BoxFit.fitHeight,),
             if(showIcon)
               SizedBox(width: 20.r,),
             Expanded(child: Column(
@@ -293,9 +317,6 @@ class HomePage extends StatelessWidget {
     await Future.delayed(const Duration(seconds: 1));
     _controller.loading.value = 2;
     _controller.resetProgress();
-
-
-
 
     // for(int i = 0; i<4; i++) {
     //   if (_controller.mainSteps[i].subSteps != null) {
@@ -468,6 +489,7 @@ class HomePage extends StatelessWidget {
       controller: v.pageController,
       children: [
         Image.asset("assets/$path/${v.path}.png", fit: BoxFit.cover,),
+        // Image.asset("assets/$path/${v.path}.gif", fit: BoxFit.cover,),
         ModelViewer(
           backgroundColor: const Color.fromARGB(255, 82, 87, 110),
           src: "assets/$path/${v.path}.glb",
@@ -475,6 +497,7 @@ class HomePage extends StatelessWidget {
           ar: true,
           autoRotate: true,
           disableZoom: false,
+          debugLogging: false,
         ),
       ],
     );

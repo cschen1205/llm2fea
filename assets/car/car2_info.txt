@@ -1,0 +1,16 @@
+Seed: 15698569349545925215
+frontal area: 0.7833458743727174
+Reference Length: 1.9685218865747278
+Prompt: A banana car in the shape of a classic yellow complete sedanyl brilliance flair curve burst accent elude jet nostril.
+Generation: 7
+Index: 2
+Baseline: (2.8908961, 0.868408296642569)
+Cd: 0.2126783
+Frontal Area: 0.7833458743727174
+Fitness Score: 0.16229983389740082
+Volume: 0.29901935851745665
+Volume Score: 0.34433037969987407
+Classifier score: 7.73863376389956e-06
+Classifier pscore: 0.9999922513961792
+Normalized Score: 0.07356829600344336
+Reflection:

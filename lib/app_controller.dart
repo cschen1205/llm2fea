@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:llm2fea/model_item.dart';
+import 'model_item.dart';
 import 'package:llm2fea/step_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,25 +19,30 @@ class AppController extends GetxController{
   //   StepItem(title: "Generation 2", subTitle: "Training for generation 2", icon: const Icon(Icons.looks_two, color: Colors.white)),
   //   StepItem(title: "Generation 3", subTitle: "Training for generation 3", icon: const Icon(Icons.looks_3, color: Colors.white))];
   List<StepItem> mainSteps = [
-    StepItem(title: "Populations Sampling", subTitle: "", icon: const Icon(Icons.auto_awesome, color: Colors.white),
-    log: "Populations Sampling: \nSample 𝐱~𝑁(𝜇,𝜎), K population of adjective and noun WordNet pair words where 𝑥_i closely matches the WU-Palmer similarity "
-        "distance between the corresponding reference and a WordNet word.\n\n"),
-    StepItem(title: "Build Text Prompts", subTitle: "", icon: const Icon(Icons.text_increase, color: Colors.white),
-    log: "Build Text Prompts: \nBuild K text prompts using the sampled WordNet pair words\n\n"),
-    StepItem(title: "Generate 3D Model", subTitle: "Shape-E Model ----> Offspring Design", icon: const Icon(Icons.view_in_ar, color: Colors.white),
-    log: "Generate 3D Model: \nGenerate 𝐾 population of car design candidates using text-to-3D (Shape-E) model, conditioned with the built text prompts.\n\n"),
-    StepItem(title: "Evaluation Drag", subTitle: "", icon: const Icon(Icons.drag_indicator, color: Colors.white),
-    log: "Evaluation Drag: \nEvaluate aerodynamics property (drag) using OpenFoam simulation and visualize using ParaView. Compute the normalized drag score "
-        "for each car design candidates.\n\n"),
-    StepItem(title: "Fitness Scores", subTitle: "", icon: const Icon(Icons.wifi_tethering, color: Colors.white),
-    log: "Fitness Scores: \nGet the Fitness Scores\n\n"),
+    StepItem(title: "Initialize", subTitle: "LLM generate initial prompts for multiple tasks", icon: const Icon(Icons.flag, color: Colors.white),
+    log: "Initialize: \nBased on various input prompts, utilize a Language Learning Model (LLM) to expand and create initial detailed prompts for "
+        "multiple tasks.\nTask 1: banana car\nTask 2: banana airplane\n\n"),
+    StepItem(title: "Reflect", subTitle: "Embed Prompts into LLM", icon: const Icon(Icons.tips_and_updates, color: Colors.white),
+    log: "Reflect: \nEmbed all prompts for various tasks into LLM\n\n"),
+    StepItem(title: "Crossover & Mutate", subTitle: "LLM generate new prompts", icon: const Icon(Icons.shuffle, color: Colors.white),
+    log: "Self-Mating: \nsingle parent prompt -> offspring prompt; \n\n"
+        "Inter-Tasks Mating (parent prompts from different tasks): \n"
+        "task 1 parent prompt + task 2 parent prompt => task 1 offspring prompt\n"
+        "task 2 parent prompt + task 1 parent prompt => task 2 offspring prompt\n\n"
+        "Intra-Task Mating: \ntwo parent prompts form same task -> offspring prompt.\n\n"),
+    StepItem(title: "Evaluate", subTitle: "Generate 3D model & Evaluation", icon: const Icon(Icons.track_changes, color: Colors.white),
+    log: "Text to 3D: \nGenerate 3D models for variable tasks from the prompts.\n\nEvaluation Drag: \nEvaluate aerodynamics property (drag) using OpenFoam "
+        "simulation and visualize using ParaView. Compute the normalized drag score for each design candidates.\n\n"),
+    StepItem(title: "Select", subTitle: "Tournament Selection", icon: const Icon(Icons.select_all, color: Colors.white),
+    log: "Fitness Scores: Get the Fitness Scores\n\nMerge Prompts:Union of parent and offspring prompts dataset;\n\n"
+        "Tournament Selection:Select the appropriate prompts\n\n"),
   ];
   static List<StepItem> generationSteps = [
-    StepItem(title: "Populations Sampling", subTitle: "Sample 10 populations", icon: const Icon(Icons.auto_awesome, color: Colors.white, size: 20,)),
-    StepItem(title: "Build Text Prompts", subTitle: "", icon: const Icon(Icons.text_increase, color: Colors.white)),
-    StepItem(title: "Generate 3D Model", subTitle: "Shape-E Model ----> Offspring Design", icon: const Icon(Icons.view_in_ar, color: Colors.white)),
-    StepItem(title: "Evaluation Drag", subTitle: "", icon: const Icon(Icons.drag_indicator, color: Colors.white)),
-    StepItem(title: "Fitness Scores", subTitle: "", icon: const Icon(Icons.wifi_tethering, color: Colors.white)),
+    StepItem(title: "Populations Sampling", subTitle: "Sample 10 populations", icon: const Icon(Icons.flag, color: Colors.white, size: 20,)),
+    StepItem(title: "Build Text Prompts", subTitle: "", icon: const Icon(Icons.tips_and_updates, color: Colors.white)),
+    StepItem(title: "Generate 3D Model", subTitle: "Shape-E Model ----> Offspring Design", icon: const Icon(Icons.shuffle, color: Colors.white)),
+    StepItem(title: "Evaluation Drag", subTitle: "", icon: const Icon(Icons.track_changes, color: Colors.white)),
+    StepItem(title: "Select", subTitle: "", icon: const Icon(Icons.select_all, color: Colors.white)),
   ];
 
   @override
@@ -53,10 +58,10 @@ class AppController extends GetxController{
 
   void initMainSteps(){
     Random random = Random();
-    mainSteps[0].time = 4200+random.nextInt(1200);
-    mainSteps[1].time = 4000+random.nextInt(1500);
-    mainSteps[2].time = 5500+random.nextInt(2000);
-    mainSteps[3].time = 4000+random.nextInt(1500);
+    mainSteps[0].time = 3600+random.nextInt(1000);
+    mainSteps[1].time = 1800+random.nextInt(500);
+    mainSteps[2].time = 8000+random.nextInt(1500);
+    mainSteps[3].time = 4300+random.nextInt(1500);
     mainSteps[4].time = 2000+random.nextInt(1200);
 
     // mainSteps[0].time = 800+random.nextInt(1000);

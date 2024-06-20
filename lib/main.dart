@@ -26,7 +26,7 @@ class GenApp extends StatelessWidget {
           scrollBehavior: MyCustomScrollBehavior(),
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent),
             useMaterial3: false,
           ),
           title: 'LLM2FEA',
